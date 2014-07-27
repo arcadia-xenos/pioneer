@@ -1,0 +1,126 @@
+{
+   "FLAVOUR_0_MESSAGE" : {
+      "description" : "",
+      "message" : "Instant Lotto: The game that pays. How many $1 tickets do you want?"
+   },
+   "FLAVOUR_0_TITLE" : {
+      "description" : "",
+      "message" : "INSTALOT: Instant Lotto. Play now!"
+   },
+   "FLAVOUR_1_MESSAGE" : {
+      "description" : "",
+      "message" : "Welcome to Instant Lotto, get your tickets and win now! How many ($1 each)?"
+   },
+   "FLAVOUR_1_TITLE" : {
+      "description" : "",
+      "message" : "INSTALOT: Get your ticket now!"
+   },
+   "FLAVOUR_2_MESSAGE" : {
+      "description" : "",
+      "message" : "Tickets are $1, payouts are priceless. How many?"
+   },
+   "FLAVOUR_2_TITLE" : {
+      "description" : "",
+      "message" : "INSTALOT: Play now, win now"
+   },
+   "FLAVOUR_3_MESSAGE" : {
+      "description" : "",
+      "message" : "Welcome and good luck on your draw. Tickets are $1, how many would you like? "
+   },
+   "FLAVOUR_3_TITLE" : {
+      "description" : "",
+      "message" : "INSTALOT: Buy the ship of your dreams, pay your crew a bonus!"
+   },
+   "FLAVOUR_4_MESSAGE" : {
+      "description" : "",
+      "message" : "Welcome to Instant Lotto. One win and never worry about docking fees again. How many $1 tickets?"
+   },
+   "FLAVOUR_4_TITLE" : {
+      "description" : "",
+      "message" : "INSTALOT: Play, win, retire to a pleasure planet with nice beaches."
+   },
+   "FLAVOUR_5_MESSAGE" : {
+      "description" : "",
+      "message" : "Welcome to Instant Lotto. Tickets are only $1, buy as many chances as you can! How many?"
+   },
+   "FLAVOUR_5_TITLE" : {
+      "description" : "",
+      "message" : "INSTALOT: All tickets honored. Buy now!"
+   },
+   "HANG_UP" : {
+      "description" : "",
+      "message" : "Hang up."
+   },
+   "PAYOUT" : {
+      "description" : "",
+      "message" : "Payout"
+   },
+   "EXAMINE_TICKETS" : {
+      "description" : "",
+      "message" : "Examine tickets"
+   },
+   "TICKET" : {
+      "description" : "",
+      "message" : "Ticket"
+   },
+   "TICKETS" : {
+      "description" : "",
+      "message" : "Tickets"
+   },
+   "INSTALOT" : {
+      "description" : "",
+      "message" : "INSTALOT"
+   },
+   "GO_BACK" : {
+      "description" : "",
+      "message" : "Go Back"
+   },
+   "RESULT" : {
+      "description" : "",
+      "message" : "Result"
+   },
+   "PLAY_SHIP_ID_DIGITS" : {
+      "description" : "",
+      "message" : "Play your ship id digits"
+   },
+   "ERROR_INSTALOT_TICKET_GEN" : {
+      "description" : "",
+      "message" : "ERROR: Ticket generation suffered an error. Please try again later."
+   },
+   "YOU_HELD_TICKET_NUMBERS" : {
+      "description" : "",
+      "message" : "You held ticket numbers"
+   },
+   "WINNING_NUMBERS_ARE" : {
+      "description" : "",
+      "message" : "Winning numbers are"
+   },
+   "YOU_DO_NOT_HAVE_ENOUGH_MONEY" : {
+      "description" : "",
+      "message" : "You do not have enough money."
+   },
+   "YOU_WIN_1" : {
+      "description" : "",
+      "message" : "!!!  Y O U  W I N    !!!"
+   },
+   "YOU_WIN_2" : {
+      "description" : "",
+      "message" : "!!!   W I N N E R    !!!"
+   },
+   "SORRY_1" : {
+      "description" : "",
+      "message" : "Very sorry, none of your tickets matched. Please try again."
+   },
+   "SORRY_2" : {
+      "description" : "",
+      "message" : "So sorry, you have no winning tickets. Please try again."
+   },
+   "SORRY_3" : {
+      "description" : "",
+      "message" : "Sorry, you lost this play. Please try again."
+   },
+   "SORRY_4" : {
+      "description" : "",
+      "message" : "Sorry, your tickets do not match. Please try again."
+   }
+}
