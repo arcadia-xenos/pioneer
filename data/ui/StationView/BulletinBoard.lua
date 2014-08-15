@@ -23,8 +23,10 @@ local rowRef = {}
 
 
 -- ------ AVAILABLE_ONLY CHECK BOX ------ --
--- remember checked state
-local enabledOnly = false
+-- context memory
+local filterOn = false
+local filterType = 1
+
 
 -- define a check box
 local optionCheckBox = function (getter, setter, caption)
@@ -37,24 +39,122 @@ local optionCheckBox = function (getter, setter, caption)
 			:SetColor({ r = 0.2, g = 0.6, b = 1.0 }) })
 end
 
--- create a toggle to show only availible bbs items
-local enabledOnlyToggle = optionCheckBox(
-	-- getter anon fn
-	function() return enabledOnly end,
-	-- setter anon fn
-	function(isChecked)
-		enabledOnly = not enabledOnly
-		if isChecked then
-			-- set to enabled ads only
-			Event.Queue("onAdvertRemoved",Game.player:GetDockedWith())
+-- check box ui widget with icon label
+local imageCheckBox = function (getter, setter, image)
+	local cb = ui:CheckBox()
+	local initial = getter()
+	cb:SetState(initial)
+	cb.onClick:Connect(function () setter(cb.isChecked) end)
+	return ui:HBox(5):PackEnd({ cb, ui:Image(image) })
+end
+
+-- radio buttons
+local radioCheckBoxSet = function (getter, setter)
+	local cb_set = {}
+	local selection = getter()
+	-- adds new checkbox to radio button set
+	local Add = function(checkBox)
+		table.insert(cb_set,checkBox)
+		local thisIndex = #cb_set - 1
+		cb_set[thisIndex].onClick:Connect(SetSelect(thisIndex))
+	end
+	-- sets radio button cb by selection index
+	local SetSelect = function (select)
+		-- paranoid select assurance
+		select = select or setter(selection) or 1
+		-- validation for index values
+		if select and (select > 0) and (select < #cb_set) then
+			-- clear current states
+			for k,cb in ipairs(cb_set) do cb:SetState(false) end
+			-- set context memory
+			selection = select
+			-- set checkbox
+			cb_set[selection]:SetState(true)
+		end
+		return selection
+	end
+	-- get select simply returns the context memory
+	local GetSelect = function () return selection end
+	end
+	
+	-- wrap up the set and return it
+	local hb = ui:HBox(5)
+	for k,cb in ipairs(cb_set) do
+		hb:PackEnd({cb})
+	end
+	return hb
+end
+
+-- create the filter enable
+local filterEnableCB = optionCheckBox(
+	-- getter
+	function ()
+		return filterOn
+	end,
+	-- setter
+	function (isChecked)
+		filterOn = not filterOn
+		if filterOn then
+			Event.Queue("onAdvertRemoved", Game.player:GetDockedWith())
 		else
-			-- set to all ads
 			Event.Queue("onAdvertAdded", Game.player:GetDockedWith())
 		end
 	end,
 	-- caption
-	l.AVAILABLE_ONLY
-)
+	l.FILTER
+end
+
+-- create the filter type radio set
+local filterTypeRB = radioCheckBoxSet(
+	--getter
+	function ()
+		return filterType
+	end,
+	--setter
+	function (selection)
+		filterType = selection
+		return filterType
+	end
+end
+
+
+-- ----------------------------------------------
+--	Contruct radio button set for filter types
+-- ----------------------------------------------
+
+-- find all available ad types for current station
+local adTypes = {}
+for ref,ad in pairs(station.adverts do
+	local found = false
+	for k,adType in ipairs(adTypes) do
+		if adType == ad.icon then
+			found = true
+		end
+	end
+	if not found then
+		table.insert(adTypes, ad.icon)
+	end
+end
+
+-- sort the types
+table.sort(adTypes)
+
+-- add known types to filter button set
+for k,adType in ipairs(adTypes) do
+	filterTypeRB:Add(imageCheckBox(
+		--getter (subverted in rb set)
+		function() return false end,
+		--setter (subverted in rb set)
+		function(isChecked) return false end,
+		--image
+		"icons/bbs/"..adType..".png"
+	))
+end
+
+-- ----------------------------------------------
+
+
+
 
 -- ------ BBS TABLE ------ --
 -- create the table for bbs items
