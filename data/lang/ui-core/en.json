@@ -319,6 +319,10 @@
       "description" : "",
       "message" : "Female"
    },
+   "FILTER" : {
+      "description" : "",
+      "message" : "Filter"
+   },
    "FORWARD_ACCEL" : {
       "description" : "",
       "message" : "Forward acceleration"
@@ -454,6 +458,10 @@
    "INVERT_MOUSE_Y" : {
       "description" : "",
       "message" : "Invert Mouse Y"
+   },
+   "COMPACT_SCANNER" : {
+      "description" : "",
+      "message" : "Compact scanner"
    },
    "IN_CARGO_HOLD" : {
       "description" : "",
@@ -1082,9 +1090,5 @@
    "YOU_NOT_ENOUGH_MONEY" : {
       "description" : "",
       "message" : "You do not have enough money"
-   },
-   "AVAILABLE_ONLY" : {
-      "description" : "",
-      "message" : "Available Only"
    }
 }

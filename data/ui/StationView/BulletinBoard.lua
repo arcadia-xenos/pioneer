@@ -22,10 +22,9 @@ local tabGroup
 local rowRef = {}
 
 
--- ------ AVAILABLE_ONLY CHECK BOX ------ --
--- context memory
+-- context memory for filter buttons
 local filterOn = false
-local filterType = 1
+local filterType
 
 
 -- define a check box
@@ -49,43 +48,28 @@ local imageCheckBox = function (getter, setter, image)
 end
 
 -- radio buttons
-local radioCheckBoxSet = function (getter, setter)
-	local cb_set = {}
-	local selection = getter()
-	-- adds new checkbox to radio button set
-	local Add = function(checkBox)
-		table.insert(cb_set,checkBox)
-		local thisIndex = #cb_set - 1
-		cb_set[thisIndex].onClick:Connect(SetSelect(thisIndex))
-	end
-	-- sets radio button cb by selection index
-	local SetSelect = function (select)
-		-- paranoid select assurance
-		select = select or setter(selection) or 1
-		-- validation for index values
-		if select and (select > 0) and (select < #cb_set) then
-			-- clear current states
-			for k,cb in ipairs(cb_set) do cb:SetState(false) end
-			-- set context memory
-			selection = select
-			-- set checkbox
-			cb_set[selection]:SetState(true)
+local radioButtonSet = function (widget, getter, setter, buttons, values)
+	local list = ui[widget](ui)
+	local initial_value = getter()
+	local initial_index
+	for i = 1, #values do
+		list:AddOption(buttons[i])
+		if initial_value == values[i] then
+			initial_index = i
 		end
-		return selection
 	end
-	-- get select simply returns the context memory
-	local GetSelect = function () return selection end
-	end
-	
-	-- wrap up the set and return it
-	local hb = ui:HBox(5)
-	for k,cb in ipairs(cb_set) do
-		hb:PackEnd({cb})
-	end
-	return hb
+	initial_index = initial_index or 1
+	list:SetSelectedIndex(initial_index)
+	list.onOptionSelected:Connect(function ()
+		setter(values[list.selectedIndex])
+	end)
+	return ui:HBox(5):PackEnd({list})
 end
 
--- create the filter enable
+
+-- ----------------------------------------------
+--	Contruct the filter enable check box
+-- ----------------------------------------------
 local filterEnableCB = optionCheckBox(
 	-- getter
 	function ()
@@ -104,18 +88,6 @@ local filterEnableCB = optionCheckBox(
 	l.FILTER
 end
 
--- create the filter type radio set
-local filterTypeRB = radioCheckBoxSet(
-	--getter
-	function ()
-		return filterType
-	end,
-	--setter
-	function (selection)
-		filterType = selection
-		return filterType
-	end
-end
 
 
 -- ----------------------------------------------
@@ -138,21 +110,45 @@ end
 
 -- sort the types
 table.sort(adTypes)
+filterType = adTypes[1]
 
+local buttons = ui:HBox(5)
 -- add known types to filter button set
 for k,adType in ipairs(adTypes) do
-	filterTypeRB:Add(imageCheckBox(
-		--getter (subverted in rb set)
-		function() return false end,
-		--setter (subverted in rb set)
-		function(isChecked) return false end,
-		--image
-		"icons/bbs/"..adType..".png"
-	))
+-- 	filterTypeRB:Add(imageCheckBox(
+-- 		--getter (subverted in rb set)
+-- 		function() return false end,
+-- 		--setter (subverted in rb set)
+-- 		function(isChecked) return false end,
+-- 		--image
+-- 		"icons/bbs/"..adType..".png"
+-- 	))
+	buttons:PackEnd({
+		imageCheckBox(
+			--getter
+			
+			--setter
+			--image
+	})
+end
+
+-- create the filter type radio set
+local filterTypeRB = radioCheckBoxSet(
+	--widget
+	'imageCheckBox',
+	--getter
+	function ()
+		return filterType
+	end,
+	--setter
+	function (selection)
+		filterType = selection
+	end
+	--buttons
+	--values
 end
 
 -- ----------------------------------------------
-
 
 
 
@@ -188,7 +184,7 @@ end)
 -- TODO: add an ad description search so that you can find specific phrases
 -- TODO: would like the controls at the bottom of the widget, but locked so they don't float up
 -- TODO: need to find out if this is something like the right way to build the interface.
-local bbsWidget = ui:VBox():PackEnd({enabledOnlyToggle}):PackEnd({bbTable})
+local bbsWidget = ui:VBox():PackEnd({filterEnableCB}):PackEnd({filterTypeRB}):PackEnd({bbTable})
 
 
 -- EVENT HANDLERS --
